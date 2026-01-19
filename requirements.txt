@@ -17,8 +17,3 @@ httpx>=0.27.0  # RAG API 调用
 # 数据处理
 openpyxl>=3.1.0
 PyPDF2>=3.0.0
-
-# 未来需要的依赖（暂时注释）
-# fastapi>=0.100.0
-# uvicorn>=0.20.0
-# sqlalchemy>=2.0.0

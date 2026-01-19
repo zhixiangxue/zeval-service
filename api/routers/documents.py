@@ -34,9 +34,9 @@ def get_pdf_page_count(file_path: str) -> int:
         raise ValueError(f"无法读取 PDF 文件: {e}")
 
 
-@router.post("/documents/upload")
-async def upload_document(file: UploadFile = File(...)):
-    """上传 PDF 文档
+@router.post("/documents")
+async def create_document(file: UploadFile = File(...)):
+    """创建文档（上传 PDF）
     
     如果文件已存在（相同 hash），返回已有文档信息
     """

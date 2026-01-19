@@ -14,7 +14,7 @@ init_database()
 # 创建 FastAPI 应用
 app = FastAPI(
     title="Mortgage RAG Evaluator API",
-    description="评估 Mortgage 领域 RAG 系统性能的 API 服务",
+    description="RAG evaluation service layer built on top of Zeval framework",
     version="1.0.0"
 )
 

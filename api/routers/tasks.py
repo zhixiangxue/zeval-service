@@ -43,7 +43,7 @@ class UpdateTaskRequest(BaseModel):
 # API 端点
 # ============================================================
 
-@router.post("/tasks/create")
+@router.post("/tasks")
 def create_task(req: CreateTaskRequest):
     """创建评估任务
     
