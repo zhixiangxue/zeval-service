@@ -32,15 +32,21 @@ from evaluator import MortgageRAGEvaluator, EvaluatorConfig
 
 # 配置日志
 logging.basicConfig(
-    level=logging.WARNING,  # 设置为 WARNING，过滤掉第三方库的 INFO 日志
+    level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler('.data/worker.log'),
         logging.StreamHandler()
     ]
 )
+
+# 禁用第三方库的详细日志
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)
+logging.getLogger("openai").setLevel(logging.WARNING)
+logging.getLogger("anthropic").setLevel(logging.WARNING)
+
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)  # Worker 自己的日志保持 INFO 级别
 
 console = Console()
 

@@ -86,9 +86,10 @@ $env:PYTHONPATH = "."
 Write-Host ""
 Write-Host "Starting API server..." -ForegroundColor Cyan
 Write-Host "  - API docs: http://localhost:8001/docs" -ForegroundColor Yellow
+Write-Host "  - Web UI: http://localhost:8001/ui" -ForegroundColor Yellow
 Write-Host "  - Health check: http://localhost:8001/health" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "Press Ctrl+C to stop" -ForegroundColor Yellow
 Write-Host ""
 
-& $pythonExe -m uvicorn api.main:app --host 0.0.0.0 --port 8001 --reload
+& $pythonExe -m uvicorn api.main:app --host 0.0.0.0 --port 8001 --reload --reload-dir api --reload-dir database --reload-dir models --reload-dir evaluator --reload-dir worker

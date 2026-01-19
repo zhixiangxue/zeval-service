@@ -19,7 +19,9 @@ zeval-service 是针对 Mortgage 领域 RAG 系统的评估服务，提供端到
 ```bash
 # 创建虚拟环境
 python3.12 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # Linux/Mac
+# or
+.venv\Scripts\activate  # Windows
 
 # 安装 zeval-ai 核心库（可编辑模式）
 cd ../zeval-ai
@@ -28,38 +30,71 @@ pip install -e .
 # 安装 zeval-service 依赖
 cd ../zeval-service
 pip install -r requirements.txt
-
-# 注意：requirements.txt 会自动升级 PyTorch 到 2.5+，解决与 docling 的兼容性问题
 ```
 
-### 单文件评估
+### 启动服务
 
 ```bash
-# 配置环境变量
+# 1. 配置环境变量
 cp .env.example .env
-# 编辑 .env 文件，填入 OPENAI_API_KEY
+# 编辑 .env 文件，填入 LLM_API_KEY
 
-# 运行评估脚本（注意：必须在 zeval-service 目录下执行）
-python -m examples.eval_single
+# 2. 启动 API 服务（包含 Web UI）
+./scripts/start_server.ps1  # Windows
+# or
+./scripts/start_server.sh  # Linux/Mac
+
+# 3. 访问 Web UI
+# http://localhost:8001/ui
+
+# 4. 启动 Worker（另一个终端）
+./scripts/start_worker.ps1  # Windows
+# or
+./scripts/start_worker.sh  # Linux/Mac
 ```
 
-### 配置
+### Web UI 使用
 
-在 `.env` 文件中配置：
-```
-OPENAI_API_KEY=your_api_key
-```
+1. 访问 http://localhost:8001/ui
+2. 上传 PDF 文档
+3. 创建评估任务
+4. 查看评估结果
+
+### API 文档
+
+- Swagger UI: http://localhost:8001/docs
+- ReDoc: http://localhost:8001/redoc
 
 ## 项目结构
 
 ```
 zeval-service/
-├── evaluator/          # 核心评估器
-├── worker/             # 定时任务
 ├── api/                # HTTP 接口
+│   ├── routers/        # 路由模块
+│   ├── main.py         # FastAPI 应用
+│   └── webui.py        # Gradio Web UI
+├── database/           # 数据库操作
+├── evaluator/          # 核心评估器
 ├── models/             # 数据模型
-├── storage/            # 文件存储
-└── examples/           # 使用示例
+├── worker/             # 定时任务
+├── scripts/            # 启动脚本
+└── .env.example        # 配置模板
+```
+
+## 配置选项
+
+在 `.env` 文件中配置：
+
+```bash
+# LLM 配置
+LLM_URI=openai/gpt-4o-mini
+LLM_API_KEY=your_api_key
+
+# 任务配置
+NUM_TEST_CASES=50
+
+# Web UI 配置
+ENABLE_WEBUI=true  # Worker 模式下设为 false
 ```
 
 ## 依赖

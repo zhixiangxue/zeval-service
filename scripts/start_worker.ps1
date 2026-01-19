@@ -52,6 +52,11 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "Dependencies OK" -ForegroundColor Green
 
+# Change to zeval-service directory
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$serviceDir = Split-Path -Parent $scriptDir
+Set-Location $serviceDir
+
 # Load environment variables
 if (Test-Path ".env") {
     Write-Host "Loading .env file" -ForegroundColor Green
@@ -62,12 +67,9 @@ if (Test-Path ".env") {
             [Environment]::SetEnvironmentVariable($name, $value, "Process")
         }
     }
+} else {
+    Write-Host "Warning: .env file not found" -ForegroundColor Yellow
 }
-
-# Change to zeval-service directory
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$serviceDir = Split-Path -Parent $scriptDir
-Set-Location $serviceDir
 
 # Initialize database
 Write-Host "Initializing database..." -ForegroundColor Green
