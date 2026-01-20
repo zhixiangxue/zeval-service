@@ -1,11 +1,30 @@
-"""Evaluation Worker - 定时拉取任务并执行评估
+"""Evaluation Worker - Periodically fetches and processes evaluation tasks
 
-Worker 特性：
-- 每次只获取 1 个任务（原子性获取，避免并发冲突）
-- 获取后立即更新状态为 running
-- 执行过程中实时更新进度到数据库
-- 支持多 Worker 并发运行
-- 单任务失败不影响其他任务
+Architecture Design:
+    This worker directly accesses the database (shared with API) for simplicity
+    and performance in single-machine or same-network deployments.
+    
+    Worker <---> Database <---> API
+             (shared database/operations.py)
+
+Design Trade-offs:
+    ✓ Simple: No HTTP overhead, straightforward code
+    ✓ Fast: Direct database access without extra API layer
+    ✓ Independent: Worker and API can run independently
+    ✗ Coupled: Requires shared database access (not suitable for distributed deployment)
+
+When to Refactor:
+    If you need distributed deployment (e.g., multiple workers on different machines),
+    consider migrating to a task queue system like Celery:
+        - Use message broker (Redis/RabbitMQ) for task distribution
+        - Workers consume tasks from queue instead of polling database
+        - API publishes tasks to queue instead of writing to database directly
+
+Worker Features:
+- Fetches one task at a time (atomic operation to avoid conflicts)
+- Updates status to 'running' immediately after claiming
+- Supports multiple concurrent workers
+- Single task failure does not affect other tasks
 """
 
 import asyncio
@@ -182,7 +201,7 @@ def main():
         config = EvaluatorConfig.from_env()
         
         # 启动 Worker
-        worker = EvaluationWorker(config, check_interval=60)
+        worker = EvaluationWorker(config, check_interval=10)
         worker.start()
         
     except KeyboardInterrupt:
