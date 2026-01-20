@@ -56,10 +56,10 @@ PYTHONPATH=. "$VENV_PATH/bin/python" scripts/init_db.py
 # 启动 API 服务
 echo ""
 echo "启动 API 服务..."
-echo "  - API 文档: http://localhost:8000/docs"
-echo "  - 健康检查: http://localhost:8000/health"
+echo "  - API 文档: http://localhost:8001/docs"
+echo "  - 健康检查: http://localhost:8001/health"
 echo ""
 echo "按 Ctrl+C 停止服务"
 echo ""
 
-"$VENV_PATH/bin/uvicorn" api.main:app --host 0.0.0.0 --port 8000 --reload
+"$VENV_PATH/bin/uvicorn" api.main:app --host 0.0.0.0 --port 8001 --reload

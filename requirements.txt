@@ -1,5 +1,8 @@
-# 依赖 zeval-ai 核心框架
--e ..
+# 依赖 zeval-ai 核心框架（从 GitHub 安装）
+zeval @ git+https://github.com/zhixiangxue/zeval-ai.git
+
+# 安装本项目自身
+-e .
 
 # 注意：代码中已包含 torch.xpu 的 monkey patch，兼容 PyTorch 2.2.2
 
