@@ -19,7 +19,7 @@ if not hasattr(torch, 'xpu'):
     torch.xpu = MockXPU()
 
 from zeval.synthetic_data.readers.docling import DoclingReader
-from zeval.synthetic_data.splitters.markdown import MarkdownHeaderSplitter
+from zeval.synthetic_data.splitters import MarkdownHeaderSplitter
 from zeval.synthetic_data.transforms.extractors import (
     SummaryExtractor,
     KeyphrasesExtractor,

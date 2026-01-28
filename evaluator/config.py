@@ -45,11 +45,10 @@ class EvaluatorConfig:
         
         Args:
             llm_uri: LLM URI，格式: "{provider}/{model}"
-                     例如: "openai/gpt-4o-mini", "bailian/qwen-plus"
+                     例如: "openai/gpt-4o-mini", "openai/gpt-4o"
         
         支持的 provider:
             - openai: 使用 OPENAI_API_KEY
-            - bailian: 使用 BAILIAN_API_KEY
             - anthropic: 使用 ANTHROPIC_API_KEY
         """
         # 解析 URI
@@ -61,7 +60,6 @@ class EvaluatorConfig:
         # 根据 provider 找对应的 API Key
         key_mapping = {
             "openai": "OPENAI_API_KEY",
-            "bailian": "BAILIAN_API_KEY",
             "anthropic": "ANTHROPIC_API_KEY",
         }
         
